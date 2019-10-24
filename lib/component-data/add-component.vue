@@ -20,7 +20,6 @@
   import _ from 'lodash';
   import { find } from '@nymag/dom';
   import { mapState } from 'vuex';
-  import velocity from 'velocity-animate/velocity.min.js';
   import { getItem, updateArray } from '../utils/local';
   import label from '../utils/label';
   import { getComponentName } from '../utils/references';
@@ -160,34 +159,17 @@
 
             this.modalTop = isInsideViewport ? `${posY - halfFinalHeight}px` : `${docHeight / 2 - halfFinalHeight}px`;
           }
-          el.style.height = '100px'; // animate from 100px to auto height (auto)
-          el.style.width = '100px'; // animate from 100px to auto width (600px)
-          velocity(el, { opacity: 1 }, { duration: 100 });
-          velocity(el, { width: 600 }, { duration: 180 });
-          velocity(headerEl, { opacity: 1 }, { delay: 225, duration: 50 });
-          velocity(innerEl, { opacity: 1 }, { delay: 225, duration: 50 });
-          velocity(el, { height: finalHeight }, {
-            delay: 35,
-            duration: 240,
-            complete: () => {
-            // set the height to auto, so forms can grow if the fields inside them grow
-            // (e.g. adding complex-list items)
-            // el.style.height = 'auto';
-              el.style.maxHeight = `calc(100vh - ${this.modalTop})`;
-              done();
-            }
-          });
+          el.style.height = 'auto'; // animate from 100px to auto height (auto)
+          el.style.width = '600px'; // animate from 100px to auto width (600px)
+          el.style.maxHeight = `calc(100vh - ${this.modalTop})`;
+          el.style.opacity = 1;
+          headerEl.style.opacity = 1;
+          innerEl.style.opacity = 1;
+          done();
         });
       },
       leave(el, done) {
-        const headerEl = find(el, '.add-component-header'),
-          innerEl = find(el, '.add-component-list');
-
-        velocity(el, { width: 100 }, { delay: 55, duration: 220 });
-        velocity(el, { height: 100 }, { duration: 220 });
-        velocity(headerEl, { opacity: 0 }, { duration: 50 });
-        velocity(innerEl, { opacity: 0 }, { duration: 50 });
-        velocity(el, { opacity: 0 }, { delay: 120, duration: 100, complete: done });
+        done();
       },
       close() {
         this.$store.dispatch('closeAddComponent');

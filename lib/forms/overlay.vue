@@ -43,7 +43,6 @@
   import _ from 'lodash';
   import { find } from '@nymag/dom';
   import { mapState } from 'vuex';
-  import velocity from 'velocity-animate/velocity.min.js';
   import { getSchema, getData } from '../core-data/components';
   import { has as hasGroup } from '../core-data/groups';
   import label from '../utils/label';
@@ -278,40 +277,25 @@
 
             this.formTop = isInsideViewport ? `${posY - halfFinalHeight}px` : `${defaultFormTop}px`;
           }
-          el.style.height = '100px'; // animate from 100px to auto height (auto)
-          el.style.width = '100px'; // animate from 100px to auto width (600px)
-          velocity(el, { opacity: 1 }, { duration: 100 });
-          velocity(el, { width: 600 }, { duration: 180 });
-          velocity(headerEl, { opacity: 1 }, { delay: 225, duration: 50 });
-          velocity(innerEl, { opacity: 1 }, { delay: 225, duration: 50 });
-          velocity(el, { height: finalHeight }, {
-            delay: 35,
-            duration: 240,
-            complete: () => {
-            // set the height to auto, so forms can grow if the fields inside them grow
-            // (e.g. adding complex-list items)
-            // el.style.height = 'auto';
-              el.style.maxHeight = `calc(100vh - ${this.formTop})`;
-              el.style.height = 'auto';
+          el.style.width = '600px'; // animate from 100px to auto width (600px)
+          // set the height to auto, so forms can grow if the fields inside them grow
+          // (e.g. adding complex-list items)
+          // el.style.height = 'auto';
+          el.style.maxHeight = `calc(100vh - ${this.formTop})`;
+          el.style.height = 'auto';
+          el.style.opacity = 1;
+          headerEl.style.opacity = 1;
+          innerEl.style.opacity = 1;
 
-              // manually reset the initial width of the indicator, see https://github.com/JosephusPaye/Keen-UI/issues/328
-              if (this.$refs.tabs) {
-                this.$refs.tabs.refreshIndicator();
-              }
-              done();
-            }
-          });
+          // manually reset the initial width of the indicator, see https://github.com/JosephusPaye/Keen-UI/issues/328
+          if (this.$refs.tabs) {
+            this.$refs.tabs.refreshIndicator();
+          }
+          done();
         });
       },
       leave(el, done) {
-        const headerEl = find(el, '.form-header'),
-          innerEl = find(el, '.form-contents');
-
-        velocity(el, { width: 100 }, { delay: 55, duration: 220 });
-        velocity(el, { height: 100 }, { duration: 220 });
-        velocity(headerEl, { opacity: 0 }, { duration: 50 });
-        velocity(innerEl, { opacity: 0 }, { duration: 50 });
-        velocity(el, { opacity: 0 }, { delay: 120, duration: 100, complete: done });
+        done();
       },
       onResize() {
         // when resizing, we can let css do its work. we don't have to worry about animation or anything,

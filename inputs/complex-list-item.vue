@@ -37,7 +37,6 @@
   import _ from 'lodash';
   import 'intersection-observer'; // polyfill for safari
   import { fieldProp } from '../lib/utils/references';
-  import velocity from 'velocity-animate/velocity.min.js';
   import field from '../lib/forms/field.vue';
   import UiButton from 'keen/UiButton';
   import UiIconButton from 'keen/UiIconButton';
@@ -94,7 +93,7 @@
             fieldSchema = _.omit(field, ['prop']);
 
           obj[fieldName] = fieldSchema;
-  
+
           return obj;
         }, {});
       },
@@ -109,7 +108,7 @@
     methods: {
       enter(el, done) {
         this.$nextTick(() => {
-          velocity(el, 'fadeIn', { duration: 250, complete: done });
+          done();
         });
       },
       moveItem(direction) {
@@ -117,7 +116,7 @@
       },
       leave(el, done) {
         this.$nextTick(() => {
-          velocity(el, 'fadeOut', { delay: 50, duration: 250, complete: done });
+          done();
         });
       },
       addItemAndUnselect(id) {

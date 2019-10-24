@@ -3,7 +3,6 @@ import _ from 'lodash';
 import Vue from 'vue';
 import NProgress from 'vue-nprogress';
 import keycode from 'keycode';
-import velocity from 'velocity-animate/velocity.min.js';
 import store from './lib/core-data/store';
 import { addSelectorButton } from './lib/utils/custom-buttons'; // eslint-disable-line
 import { add as addInput } from './lib/forms/inputs';
@@ -15,16 +14,10 @@ import { hasClickedFocusableEl } from './lib/decorators/focus';
 import { hasClickedSelectableEl } from './lib/decorators/select';
 import { META_PRESS, META_UNPRESS } from './lib/preloader/mutationTypes';
 import { getEventPath } from './lib/utils/events';
-import { standardCurve } from './lib/utils/references';
 import { getLastEditUser } from './lib/utils/history';
 import 'keen-ui/src/bootstrap'; // import this once, for KeenUI components
-import 'velocity-animate/velocity.ui.min.js'; // import this once, for velocity ui stuff
 import VueObserveVisibility from 'vue-observe-visibility';
 import VueClickOutside from 'vue-click-outside';
-
-// set animation defaults
-velocity.defaults.easing = standardCurve;
-velocity.defaults.queue = false;
 
 const inputReq = require.context('./inputs', false, /\.vue$/),
   // todo: in the future, we should queue up the saves
